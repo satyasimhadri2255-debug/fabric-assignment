@@ -1,0 +1,37 @@
+Organizations:
+
+  - &OrdererOrg
+    Name: OrdererMSP
+    ID: OrdererMSP
+    MSPDir: crypto-config/ordererOrganizations/example.com/msp
+
+  - &Org1
+    Name: Org1MSP
+    ID: Org1MSP
+    MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
+
+Orderer: &OrdererDefaults
+  OrdererType: solo
+  Addresses:
+    - orderer.example.com:7050
+  Organizations:
+    - *OrdererOrg
+
+Application: &ApplicationDefaults
+  Organizations:
+
+Profiles:
+
+  GenesisProfile:
+    Orderer:
+      <<: *OrdererDefaults
+    Consortiums:
+      SampleConsortium:
+        Organizations:
+          - *Org1
+
+  ChannelProfile:
+    Consortium: SampleConsortium
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
